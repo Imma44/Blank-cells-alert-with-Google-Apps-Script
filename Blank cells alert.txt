@@ -1,14 +1,15 @@
 ﻿function sendEmails() {
   var ss = SpreadsheetApp.getActiveSpreadsheet()
-  var sheet = ss.getSheetByName("sheetname");//Using the actual sheet name      
+  var sheet = ss.getSheetByName("sheetname");
   var sheetUrl = ss.getUrl() + "#gid=" + sheet.getSheetId()
  
   // Start at second row because the first row contains the data labels
   var lastRow = sheet.getLastRow();
   var lastCol = sheet.getLastColumn();
-  var offset = 2 // this is the first row with actual data minus the headers.
+  var offset = 2 // this is the first row with actual dat minus the headers.
  
-  // Fetch the range of cells, in this case A2:J
+  
+ // Fetch the range of cells, in this case A2:J
   // Column F, row[5] = PhoneNo  Column J, row[9]=Amount
   var dataRange = sheet.getRange(offset, 1, lastRow, lastCol);
   
@@ -20,12 +21,10 @@
   for (var i = 0; i < data.length-1; ++i) {
     var row = data[i]
  
-    var sampleId = row[5]
+    var sampleId = row[6]
     var amount=row[9]
     if(amount >0){
-
-
-    
+ 
     if (sampleId === "") {
       rowIndex = i + offset
       val = rowIndex + " : " + (sheetUrl + "&range=F" + rowIndex) 
@@ -37,10 +36,8 @@
   if (rowIndices.length > 0) {
     var indices = rowIndices.join("\n")
     var subject = 'Alert:Blank Phone No.s';
-    var emailAddress = "email@gmail.com"; // 
+    var emailAddress = "email.com"; // 
     var message = "Hi "+ emailAddress + ",\nCould you please fill in the phone number for the following rows:\n" + indices + "\nThank you"; // Assemble the body text
-    
-  }
-     var message = "Hi "+ emailAddress + ",\nCould you please fill in the phone number for the following rows:\n" + indices + "\nThank you"; // Assemble the body text
     GmailApp.sendEmail(emailAddress, subject, message);
   }
+}
